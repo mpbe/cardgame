@@ -21,15 +21,22 @@ public class Main {
         ArrayList<Cards> listOfCards = cards.cardBuilder();
 
         Collections.shuffle(listOfCards);
-        //System.out.println(listOfCards);
+        System.out.println(listOfCards);
 
         int total = cards.deal();
 
-        total = cards.play();
+        total = cards.play(total);
 
+        int aiTotal = cards.aiDeal();
 
+        aiTotal = cards.aiPlay(total, aiTotal);
 
-
+        if ((total > aiTotal) || (aiTotal > 21)) {
+            System.out.println("you win!");
+        }
+        else {
+            System.out.println("you lose");
+        }
     }
 }
 

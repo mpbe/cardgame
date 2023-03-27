@@ -87,7 +87,7 @@ public class Cards {
     Scanner scanner = new Scanner(System.in);
     int hitCounter = 2;
 
-    public int play() {
+    public int play(int total) {
 
 
         do {
@@ -111,7 +111,7 @@ public class Cards {
 
             } else if (move.equalsIgnoreCase("stand")) {
                 System.out.println("standing");
-                System.out.printf("your total was %d", total);
+                System.out.printf("your total was %d\n", total);
                 isPlaying = false;
             } else {
                 System.out.println("please enter a valid move");
@@ -120,5 +120,36 @@ public class Cards {
         } while(isPlaying);
 
         return total;
+    }
+
+    int aiTotal = 0;
+
+    public int aiDeal() {
+
+        for (int i = 0; i < 2; i++) {
+            aiTotal += listOfCards.get(hitCounter).value;
+            hitCounter++;
+
+
+        }
+        System.out.printf("ai score after deal is %d\n", aiTotal);
+        return aiTotal;
+    }
+
+
+    public int aiPlay(int total, int aiTotal) {
+
+        while (aiTotal < total) {
+            System.out.println("hitting...");
+            aiTotal += listOfCards.get(hitCounter).value;
+            hitCounter++;
+            System.out.printf("ai score is %d\n", aiTotal);
+        }
+
+        if (aiTotal > 21) {
+            System.out.println("busted!");
+        }
+
+        return aiTotal;
     }
 }
