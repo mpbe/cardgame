@@ -86,8 +86,13 @@ public class Cards {
         return total;
     }
 
-
+    int aiTotal = 0;
     boolean isPlaying = true;
+
+    int bust = 21;
+
+
+
     Scanner scanner = new Scanner(System.in);
     int hitCounter = 2;
 
@@ -97,13 +102,15 @@ public class Cards {
 
         do {
 
-            while((total > 21) && (aceCount != 0)) {
+
+            while((total > bust) && (aceCount != 0)) {
 
                 total = total - 10;
                 aceCount--;
 
+
             }
-            if (total > 21) {
+            if (total > bust) {
                 System.out.printf("total is %d\n", total);
                 System.out.println("busted!");
 
@@ -112,12 +119,20 @@ public class Cards {
             }
             StringBuilder aceTotals = new StringBuilder();
             int aceStringBuild = aceCount;
-            int aceStringTotal = total;
+            int totalStringBuild = total;
+
             while(aceStringBuild != 0) {
                 aceTotals.append(" (or ");
-                aceTotals.append(aceStringTotal - 10);
+                aceTotals.append(totalStringBuild - 10);
                 aceTotals.append(")");
                 aceStringBuild--;
+                totalStringBuild = totalStringBuild - 10;
+
+                /* i realise i dont need this string builder at all now as you can never have more
+                 than one ace counting as 11.. but im gonna leave it in cos it was fun and i can
+                 edit the bust value for fun later!
+
+                 */
             }
 
             System.out.printf("total is %d%s\n", total, aceTotals);
@@ -151,7 +166,7 @@ public class Cards {
         return total;
     }
 
-    int aiTotal = 0;
+
 
     public int aiDeal() {
 
@@ -166,6 +181,7 @@ public class Cards {
     }
 
 
+
     public int aiPlay(int total, int aiTotal) {
 
         while (aiTotal < total) {
@@ -175,7 +191,7 @@ public class Cards {
             System.out.printf("ai score is %d\n", aiTotal);
         }
 
-        if (aiTotal > 21) {
+        if (aiTotal > bust) {
             System.out.println("busted!");
         }
 
