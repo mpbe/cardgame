@@ -67,6 +67,7 @@ public class Cards {
     }
 
     int total = 0;
+    int aceCount = 0;
 
     int deal() {
         System.out.println("your cards are:");
@@ -77,6 +78,9 @@ public class Cards {
             System.out.println(listOfCards.get(i));
             total += listOfCards.get(i).value;
 
+            if (listOfCards.get(i).value == 11) {
+                aceCount++;
+            }
 
         }
         return total;
@@ -87,16 +91,36 @@ public class Cards {
     Scanner scanner = new Scanner(System.in);
     int hitCounter = 2;
 
+
     public int play(int total) {
 
 
         do {
 
-            if (total > 21) {
-                System.out.println("busted!");
-                break;
-                //can just exit the program altogether here how do i do that?
+            while((total > 21) && (aceCount != 0)) {
+
+                total = total - 10;
+                aceCount--;
+
             }
+            if (total > 21) {
+                System.out.printf("total is %d\n", total);
+                System.out.println("busted!");
+
+                System.exit(0);
+
+            }
+            StringBuilder aceTotals = new StringBuilder();
+            int aceStringBuild = aceCount;
+            int aceStringTotal = total;
+            while(aceStringBuild != 0) {
+                aceTotals.append(" (or ");
+                aceTotals.append(aceStringTotal - 10);
+                aceTotals.append(")");
+                aceStringBuild--;
+            }
+
+            System.out.printf("total is %d%s\n", total, aceTotals);
 
             System.out.println("What is your move?");
             System.out.println("HIT    STAND");
@@ -106,8 +130,13 @@ public class Cards {
 
                 System.out.println(listOfCards.get(hitCounter));
                 total += listOfCards.get(hitCounter).value;
+
+
+                if (listOfCards.get(hitCounter).value == 11) {
+                    aceCount++;
+                }
                 hitCounter++;
-                System.out.printf("total is %d\n", total);
+
 
             } else if (move.equalsIgnoreCase("stand")) {
                 System.out.println("standing");
