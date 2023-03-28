@@ -26,7 +26,7 @@ public class Cards {
         return value + " OF " + suit;
     }
 
-    //create a list of cards using the i to populate - push and pop in lists/collection
+
     ArrayList<Cards> listOfCards = new ArrayList<Cards>();
 
     public ArrayList<Cards> cardBuilder() {
@@ -70,7 +70,7 @@ public class Cards {
     int aceCount = 0;
 
     int deal() {
-        System.out.println("your cards are:");
+        System.out.println("your cards are:\n");
 
 
         for (int i = 0; i < 2; i++) {
@@ -135,7 +135,7 @@ public class Cards {
                  */
             }
 
-            System.out.printf("total is %d%s\n", total, aceTotals);
+            System.out.printf("\ntotal is %d%s\n\n", total, aceTotals);
 
             System.out.println("What is your move?");
             System.out.println("HIT    STAND");
@@ -170,8 +170,13 @@ public class Cards {
 
     public int aiDeal() {
 
+        /* i would like there to be a way for me to like pause or wait one second between things
+            as atm it just races through the bot's turn. is there a command i can use to do that?
+         */
+
         for (int i = 0; i < 2; i++) {
             aiTotal += listOfCards.get(hitCounter).value;
+            System.out.println(listOfCards.get(hitCounter));
             hitCounter++;
 
 
@@ -187,6 +192,7 @@ public class Cards {
         while (aiTotal < total) {
             System.out.println("hitting...");
             aiTotal += listOfCards.get(hitCounter).value;
+            System.out.println(listOfCards.get(hitCounter));
             hitCounter++;
             System.out.printf("ai score is %d\n", aiTotal);
         }

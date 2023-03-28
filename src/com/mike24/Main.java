@@ -13,7 +13,7 @@ public class Main {
 
         System.out.println("what is your username");
         String userName = scanner.nextLine();
-        System.out.printf("hi %s, welcome to scuffedjack\n", userName);
+        System.out.printf("hi %s, welcome to scuffedjack\n\n", userName);
 
 
         Cards cards = new Cards(1, Suits.CLUBS);
@@ -21,7 +21,7 @@ public class Main {
         ArrayList<Cards> listOfCards = cards.cardBuilder();
 
         Collections.shuffle(listOfCards);
-        System.out.println(listOfCards);
+        //System.out.println(listOfCards);
 
         int total = cards.deal();
 
