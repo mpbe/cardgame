@@ -13,30 +13,41 @@ public class Main {
 
         System.out.println("what is your username");
         String userName = scanner.nextLine();
-        System.out.printf("hi %s, welcome to scuffedjack\n\n", userName);
+        System.out.printf("hi %s, welcome to scuffedjack\n", userName);
 
+        ArrayList<Card> listOfCards = new ArrayList<Card>();
+        int total = 0;
+        int aceCount = 0;
+        int dealCounter = 0;
+        int BUST = 21;
 
-        Cards cards = new Cards(1, Suits.CLUBS);
+        BlackjackMethods blackjackMethods = new BlackjackMethods();
 
-        ArrayList<Cards> listOfCards = cards.cardBuilder();
+        BlackjackMethods.deckBuilder(listOfCards);
 
         Collections.shuffle(listOfCards);
-        //System.out.println(listOfCards);
+        System.out.println(listOfCards);
 
-        int total = cards.deal();
+        int total2 = blackjackMethods.deal(listOfCards, total, dealCounter, aceCount);
+        System.out.println(total);
+        System.out.println(dealCounter);
+        BlackjackMethods.play(listOfCards, total2, dealCounter, BUST, aceCount, scanner);
 
-        total = cards.play(total);
+/*
+        System.out.println("ai card being dealt");
 
-        int aiTotal = cards.aiDeal();
+        int aiTotal = blackjackMethods.aiDeal();
 
-        aiTotal = cards.aiPlay(total, aiTotal);
+        aiTotal = blackjackMethods.aiPlay(total, aiTotal);
 
-        if ((total > aiTotal) || (aiTotal > 21)) {
+        if ((total > aiTotal) || (aiTotal > blackjackMethods.bust)) {
             System.out.println("you win!");
         }
         else {
             System.out.println("you lose");
         }
+
+         */
     }
 }
 
