@@ -1,6 +1,5 @@
 package com.mike24;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class Card {
@@ -24,7 +23,7 @@ public class Card {
         return cardname;
     }
 
-    public void setCardname(CardName cardname) {
+    public void setCardName(CardName cardname) {
         this.cardname = cardname;
     }
 
