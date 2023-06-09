@@ -1,19 +1,17 @@
 package com.mike24;
 
-import com.sun.tools.jdeprscan.scan.Scan;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Blackjack {
 
 
+static int BUST = 21;
 
 
 
 
-
-public static void Blackjack() {
+public static void BlackjackGame() {
 
     Scanner scanner = new Scanner(System.in);
 
@@ -21,10 +19,6 @@ public static void Blackjack() {
     ArrayList<Card> playerHand = new ArrayList<Card>();
     ArrayList<Card> dealerHand = new ArrayList<Card>();
 
-    int total = 0;
-    int aceCount = 0;
-    int dealCounter = 0;
-    int BUST = 21;
 
 
 
@@ -32,33 +26,79 @@ public static void Blackjack() {
     CardGameFunctions.Shuffle(deckOfCards);
     System.out.println(deckOfCards);
 
-    firstDeal(deckOfCards, playerHand);
-    System.out.println("your cards are");
-    System.out.println(playerHand);
-    String move = playerTurn(scanner);
+    initialDeal(deckOfCards, playerHand);
+
+    PlayersTurn(deckOfCards, playerHand);
 
 
 }
 
 
 
-public static void firstDeal(ArrayList<Card> deckOfCards, ArrayList<Card> playerHand) {
+public static void initialDeal(ArrayList<Card> deckOfCards, ArrayList<Card> playerHand) {
+
+    BlackjackDeal(deckOfCards, playerHand);
+    BlackjackDeal(deckOfCards, playerHand);
+    PrintHand(playerHand);
+
+}
+
+public static void BlackjackDeal(ArrayList<Card> deckOfCards, ArrayList<Card> playerHand) {
     Card dealtCard = CardGameFunctions.DealCard(deckOfCards);
     playerHand.add(dealtCard);
     CardGameFunctions.RemoveCardFromDeck(deckOfCards);
-    dealtCard = CardGameFunctions.DealCard(deckOfCards);
-    playerHand.add(dealtCard);
-    CardGameFunctions.RemoveCardFromDeck(deckOfCards);
 
 }
 
-public static String playerTurn(Scanner scanner) {
+public static void PlayersTurn(ArrayList<Card> deckOfCards, ArrayList<Card> playerHand) {
+
+    boolean isPlaying = true;
+
+    while(isPlaying) {
+
+
+        String hitOrStand = HitOrStand(new Scanner(System.in), playerHand, deckOfCards);
+
+
+        if (hitOrStand.equalsIgnoreCase("hit")) {
+
+            BlackjackDeal(deckOfCards, playerHand);
+            PrintHand(playerHand);
+            boolean isBust = CheckIfBust(playerHand, BUST);
+            if (isBust) {
+
+                return;
+            }
+
+
+        }
+        else {
+            System.out.println("standing");
+            isPlaying = false;
+        }
+    }
+
+
+}
+
+public static void PrintHand(ArrayList<Card> playerHand) {
+    System.out.println("your cards are");
+    System.out.println(playerHand);
+    int total = CheckTotal(playerHand);
+    System.out.printf("total is %d\n", total);
+}
+
+public static String HitOrStand(Scanner scanner, ArrayList<Card> playerHand, ArrayList<Card> deckOfCards) {
+
+
+
     System.out.println("What is your move?");
     System.out.println("HIT    STAND");
-    String move = scanner.nextLine();
+
 
     while(true) {
 
+        String move = scanner.nextLine();
         if ((move.equalsIgnoreCase("hit")) || (move.equalsIgnoreCase("stand"))) {
             return move;
         }  else {
@@ -67,6 +107,38 @@ public static String playerTurn(Scanner scanner) {
     }
 }
 
+
+public static int CheckTotal(ArrayList<Card> playerHand) {
+    int total = 0;
+
+    for (Card card : playerHand) {
+        total = total + card.getCardValue();
+    }
+
+
+    return total;
+
+
+}
+
+public static boolean CheckIfBust(ArrayList<Card> playerHand, int BUST) {
+    boolean isBust = false;
+    int total = CheckTotal(playerHand);
+    if (total > BUST) {
+        System.out.println("busted!");
+        isBust = true;
+
+    }
+    return isBust;
+
+}
+
+
+
+
+
+//ignore everything under here its the old code i used, im checking it for reference sometimes
+    //but eventually it will be deleted
 
 
 

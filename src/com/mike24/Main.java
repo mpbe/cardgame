@@ -8,17 +8,23 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
 
-        MenuOptions.IntroMessage();
-        MenuOptions.GetUsername(scanner);
-        MenuOptions.GameSelection(scanner);
+        boolean isPlaying = true;
 
+        while (isPlaying) {
 
 
+            Scanner scanner = new Scanner(System.in);
+
+            MenuOptions.IntroMessage();
+            MenuOptions.GetUsername(scanner);
+            MenuOptions.GameSelection(scanner);
+            isPlaying = MenuOptions.CheckIfPlayAgain(scanner);
 
 
 
+
+        }
     }
 }
 

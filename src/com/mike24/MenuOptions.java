@@ -6,6 +6,8 @@ public class MenuOptions {
 
 
 
+
+
     public static void IntroMessage() {
         System.out.println("Welcome to Card Game");
     }
@@ -24,6 +26,7 @@ public class MenuOptions {
         System.out.println("pick from one of the games below");
 
         //this bit could do with changing, i already know you wont like the manual game number in the enum lol
+        //but for now i couldnt be bothered typing blackjack every time i wanted to test it
 
         for (CardGames cardGames : CardGames.values()) {
             System.out.print(cardGames.gameNumber);
@@ -50,8 +53,33 @@ public class MenuOptions {
 
         if (gameNumber == CardGames.BLACKJACK.gameNumber) {
             System.out.println("launching Blackjack");
-            Blackjack.Blackjack();
+            Blackjack.BlackjackGame();
         }
 
+
+    }
+
+    public static boolean CheckIfPlayAgain(Scanner scanner) {
+
+        boolean isPlaying = true;
+
+        while (true) {
+
+            System.out.println("play again? y/n");
+            String decision = scanner.nextLine();
+            if (decision.equalsIgnoreCase("y")) {
+                System.out.println("okay then! restarting menu");
+                break;
+            } else if (decision.equalsIgnoreCase("n")) {
+                System.out.println("see ya later!");
+                isPlaying = false;
+                break;
+            } else {
+                System.out.println("huh? talk some sense man");
+            }
+        }
+
+
+        return isPlaying;
     }
 }
