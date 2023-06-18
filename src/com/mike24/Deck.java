@@ -3,16 +3,15 @@ package com.mike24;
 import java.util.ArrayList;
 import java.util.Collections;
 
+public class Deck {
 
-public class CardGameFunctions {
-
-
-
+    private ArrayList<Card> deckOfCards = new ArrayList<Card>();
 
 
-    public static void deckBuilder(ArrayList<Card> deckOfCards) {
+    public Deck() {
 
-        deckOfCards.clear();
+
+
         for(Suits suit : Suits.values()) {
 
             for (CardName cardName : CardName.values()) {
@@ -20,42 +19,24 @@ public class CardGameFunctions {
 
             }
         }
-
     }
 
-    public static void Shuffle(ArrayList<Card> deckOfCards) {
+
+    public void shuffle() {
         Collections.shuffle(deckOfCards);
     }
 
 
 
-    public static Card DealCard(ArrayList<Card> deckOfCards) {
+    public Card DealCard() {
 
-    return deckOfCards.get(0);
+        return deckOfCards.get(0);
 
 
     }
 
-    public static void RemoveCardFromDeck(ArrayList<Card> deckOfCards) {
+    public void RemoveCardFromDeck() {
 
         deckOfCards.remove(0);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

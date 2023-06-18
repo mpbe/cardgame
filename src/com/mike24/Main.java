@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
 
+
         boolean isPlaying = true;
 
         while (isPlaying) {
@@ -19,7 +20,7 @@ public class Main {
             MenuOptions.IntroMessage();
             MenuOptions.GetUsername(scanner);
             MenuOptions.GameSelection(scanner);
-            isPlaying = MenuOptions.CheckIfPlayAgain(scanner);
+            isPlaying = MenuOptions.checkIfPlayAgain(scanner);
 
 
 

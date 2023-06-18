@@ -34,7 +34,7 @@ public class MenuOptions {
         }
 
         String gameSelection;
-        int gameNumber = 0;
+        int gameNumber;
 
         while (true) {
             try {
@@ -53,13 +53,14 @@ public class MenuOptions {
 
         if (gameNumber == CardGames.BLACKJACK.gameNumber) {
             System.out.println("launching Blackjack");
-            Blackjack.BlackjackGame();
+            new Blackjack().BlackjackGame();
+
         }
 
 
     }
 
-    public static boolean CheckIfPlayAgain(Scanner scanner) {
+    public static boolean checkIfPlayAgain(Scanner scanner) {
 
         boolean isPlaying = true;
 

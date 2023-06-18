@@ -6,65 +6,57 @@ import java.util.Scanner;
 public class Blackjack {
 
 
-static int BUST = 21;
+final int BUST = 21;
 
 
+private Deck deck = new Deck();
 
+ArrayList<Card> playerHand = new ArrayList<Card>();
+ArrayList<Card> dealerHand = new ArrayList<Card>();
+Scanner scanner = new Scanner(System.in);
 
-public static void BlackjackGame() {
+public void BlackjackGame() {
 
-    Scanner scanner = new Scanner(System.in);
-
-    ArrayList<Card> deckOfCards = new ArrayList<Card>();
-    ArrayList<Card> playerHand = new ArrayList<Card>();
-    ArrayList<Card> dealerHand = new ArrayList<Card>();
-
-
-
-
-    CardGameFunctions.deckBuilder(deckOfCards);
-    CardGameFunctions.Shuffle(deckOfCards);
-    System.out.println(deckOfCards);
-
-    initialDeal(deckOfCards, playerHand);
-
-    PlayersTurn(deckOfCards, playerHand);
+    deck.shuffle();
+    initialDealToPlayer();
+    playersTurn();
+    dealersTurn();
 
 
 }
 
 
 
-public static void initialDeal(ArrayList<Card> deckOfCards, ArrayList<Card> playerHand) {
+private void initialDealToPlayer() {
 
-    BlackjackDeal(deckOfCards, playerHand);
-    BlackjackDeal(deckOfCards, playerHand);
-    PrintHand(playerHand);
+    blackjackDealToPlayer();
+    blackjackDealToPlayer();
+    printPlayerHand();
 
 }
 
-public static void BlackjackDeal(ArrayList<Card> deckOfCards, ArrayList<Card> playerHand) {
-    Card dealtCard = CardGameFunctions.DealCard(deckOfCards);
+private void blackjackDealToPlayer() {
+    Card dealtCard = deck.DealCard();
     playerHand.add(dealtCard);
-    CardGameFunctions.RemoveCardFromDeck(deckOfCards);
+    deck.RemoveCardFromDeck();
 
 }
 
-public static void PlayersTurn(ArrayList<Card> deckOfCards, ArrayList<Card> playerHand) {
+private void playersTurn() {
 
     boolean isPlaying = true;
 
     while(isPlaying) {
 
 
-        String hitOrStand = HitOrStand(new Scanner(System.in), playerHand, deckOfCards);
+        String hitOrStand = hitOrStand();
 
 
         if (hitOrStand.equalsIgnoreCase("hit")) {
 
-            BlackjackDeal(deckOfCards, playerHand);
-            PrintHand(playerHand);
-            boolean isBust = CheckIfBust(playerHand, BUST);
+            blackjackDealToPlayer();
+            printPlayerHand();
+            boolean isBust = checkIfPlayerBust();
             if (isBust) {
 
                 return;
@@ -81,14 +73,14 @@ public static void PlayersTurn(ArrayList<Card> deckOfCards, ArrayList<Card> play
 
 }
 
-public static void PrintHand(ArrayList<Card> playerHand) {
+private void printPlayerHand() {
     System.out.println("your cards are");
     System.out.println(playerHand);
-    int total = CheckTotal(playerHand);
+    int total = checkPlayerTotal();
     System.out.printf("total is %d\n", total);
 }
 
-public static String HitOrStand(Scanner scanner, ArrayList<Card> playerHand, ArrayList<Card> deckOfCards) {
+private String hitOrStand() {
 
 
 
@@ -108,7 +100,7 @@ public static String HitOrStand(Scanner scanner, ArrayList<Card> playerHand, Arr
 }
 
 
-public static int CheckTotal(ArrayList<Card> playerHand) {
+private int checkPlayerTotal() {
     int total = 0;
 
     for (Card card : playerHand) {
@@ -121,9 +113,9 @@ public static int CheckTotal(ArrayList<Card> playerHand) {
 
 }
 
-public static boolean CheckIfBust(ArrayList<Card> playerHand, int BUST) {
+private boolean checkIfPlayerBust() {
     boolean isBust = false;
-    int total = CheckTotal(playerHand);
+    int total = checkPlayerTotal();
     if (total > BUST) {
         System.out.println("busted!");
         isBust = true;
@@ -133,144 +125,93 @@ public static boolean CheckIfBust(ArrayList<Card> playerHand, int BUST) {
 
 }
 
+private void blackjackDealToDealer() {
+    Card dealtCard = deck.DealCard();
+    dealerHand.add(dealtCard);
+    deck.RemoveCardFromDeck();
+}
+
+private int checkDealerTotal() {
+    int total = 0;
+    for (Card card : dealerHand) {
+        total = total + card.getCardValue();
+    }
+    return total;
+}
+
+private void printDealerHand(){
+    System.out.println("dealer's cards are:");
+    System.out.println(dealerHand);
+    int total = checkDealerTotal();
+    System.out.printf("total is %d\n", total);
+    }
+
+private void initialDealToDealer() {
+    blackjackDealToDealer();
+    blackjackDealToDealer();
+
+}
+
+private boolean compareDealerTotalToPlayer() {
+
+    int playerTotal = checkPlayerTotal();
+    int dealerTotal = checkDealerTotal();
+
+    return playerTotal > dealerTotal;
 
 
 
+}
 
-//ignore everything under here its the old code i used, im checking it for reference sometimes
-    //but eventually it will be deleted
-
-
+private void dealerMove() {
 
 
-    public static void play(ArrayList<Card> listOfCards, int total, int dealCounter, int BUST, int aceCount, Scanner scanner) {
+    boolean isPlaying = true;
 
-        boolean isPlaying = true;
+    while(isPlaying) {
+        printDealerHand();
 
-        do {
+        boolean isBust = checkIfDealerBust();
+        if (isBust) {
 
-            // if you are bust but have aces then subtract 10 from total to essentially
-            // turn the ace value to 1
-            /*while((total > BUST) && (aceCount != 0)) {
-
-                total = total - 10;
-                aceCount--;
-
-
-            }
-*/
-            // then if bust end program there
-            if (total > BUST) {
-                System.out.printf("total is %d\n", total);
-                System.out.println("busted!");
-
-                System.exit(0);
-
-            }
-
-            /* technically this is overkill as a with bust value of 21 you can only ever have one
-               ace that has a value of 11, but you can change the bust value to whatever using this
-               and the string builder will print accurately what your values are. to be honest i
-               just saw your string builder in currencyConverter and wanted to play around with it lol
-             */
-
-
-            StringBuilder aceTotals = new StringBuilder();
-            int aceStringBuild = aceCount;
-            int totalStringBuild = total;
-
-            while(aceStringBuild != 0) {
-                aceTotals.append(" (or ");
-                aceTotals.append(totalStringBuild - 10);
-                aceTotals.append(")");
-                aceStringBuild--;
-                totalStringBuild = totalStringBuild - 10;
-
-
+            return;
         }
 
-        System.out.printf("\ntotal is %d%s\n\n", total);
+        boolean isHitting = compareDealerTotalToPlayer();
 
-        System.out.println("What is your move?");
-        System.out.println("HIT    STAND");
-        String move = scanner.nextLine();
-
-        if (move.equalsIgnoreCase("hit")) {
-
-            System.out.println(listOfCards.get(dealCounter));
-            total += listOfCards.get(dealCounter).getCardValue();
-
-
-            if (listOfCards.get(dealCounter).getCardValue() == 11) {
-                aceCount++;
-            }
-            dealCounter++;
-
-
-        } else if (move.equalsIgnoreCase("stand")) {
-            System.out.println("standing");
-            System.out.printf("your total was %d\n\n", total);
-            isPlaying = false;
+        if (isHitting) {
+            System.out.println("hitting");
+            blackjackDealToDealer();
         } else {
-            System.out.println("please enter a valid move");
+            System.out.println("dealer wins!");
+            isPlaying = false;
         }
-
-    } while(isPlaying);
-
-
+    }
 }
 
-
-/*
-    public int aiDeal() {
-
-
-
-        for (int i = 0; i < 2; i++) {
-            aiTotal += listOfCards.get(hitCounter).getValue();
-            System.out.println(listOfCards.get(hitCounter));
-            hitCounter++;
-
-
-        }
-        System.out.printf("ai score after deal is %d\n", aiTotal);
-        return aiTotal;
-    }
-
-
-
-    public int aiPlay(int total, int aiTotal) {
-
-        while (aiTotal < total) {
-            System.out.println("hitting...");
-            aiTotal += listOfCards.get(hitCounter).getValue();
-            System.out.println(listOfCards.get(hitCounter));
-            hitCounter++;
-            System.out.printf("ai score is %d\n", aiTotal);
-        }
-
-        if (aiTotal > bust) {
+private boolean checkIfDealerBust() {
+        boolean isBust = false;
+        int total = checkDealerTotal();
+        if (total > BUST) {
             System.out.println("busted!");
-        }
+            System.out.println("player wins!");
+            isBust = true;
 
-        return aiTotal;
+        }
+        return isBust;
+
     }
-    */
 
-        /*
-        System.out.println("ai card being dealt");
 
-        int aiTotal = blackjackMethods.aiDeal();
 
-        aiTotal = blackjackMethods.aiPlay(total, aiTotal);
+private void dealersTurn() {
+    initialDealToDealer();
 
-        if ((total > aiTotal) || (aiTotal > blackjackMethods.bust)) {
-            System.out.println("you win!");
-        }
-        else {
-            System.out.println("you lose");
-        }
+    dealerMove();
 
-         */
 
 }
+
+}
+
+

@@ -1,5 +1,5 @@
 package com.mike24;
-import java.util.ArrayList;
+
 
 
 public class Card {
@@ -44,7 +44,7 @@ public class Card {
     }
 
 
-    ArrayList<Card> listOfCards = new ArrayList<Card>();
+
 
 
 }
