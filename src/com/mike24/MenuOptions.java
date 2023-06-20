@@ -25,8 +25,7 @@ public class MenuOptions {
 
         System.out.println("pick from one of the games below");
 
-        //this bit could do with changing, i already know you wont like the manual game number in the enum lol
-        //but for now i couldnt be bothered typing blackjack every time i wanted to test it
+
 
         for (CardGames cardGames : CardGames.values()) {
             System.out.print(cardGames.gameNumber);
@@ -53,7 +52,7 @@ public class MenuOptions {
 
         if (gameNumber == CardGames.BLACKJACK.gameNumber) {
             System.out.println("launching Blackjack");
-            new Blackjack().BlackjackGame();
+            new Blackjack().blackjackGame();
 
         }
 

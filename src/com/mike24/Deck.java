@@ -28,14 +28,14 @@ public class Deck {
 
 
 
-    public Card DealCard() {
+    public Card dealCard() {
 
         return deckOfCards.get(0);
 
 
     }
 
-    public void RemoveCardFromDeck() {
+    public void removeCardFromDeck() {
 
         deckOfCards.remove(0);
     }

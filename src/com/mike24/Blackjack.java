@@ -1,6 +1,5 @@
 package com.mike24;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Blackjack {
@@ -11,14 +10,16 @@ final int BUST = 21;
 
 private Deck deck = new Deck();
 
-ArrayList<Card> playerHand = new ArrayList<Card>();
-ArrayList<Card> dealerHand = new ArrayList<Card>();
+private Hand playerHand = new Hand();
+private Hand dealerHand = new Hand();
+
+
 Scanner scanner = new Scanner(System.in);
 
-public void BlackjackGame() {
+
+public void blackjackGame() {
 
     deck.shuffle();
-    initialDealToPlayer();
     playersTurn();
     dealersTurn();
 
@@ -29,20 +30,17 @@ public void BlackjackGame() {
 
 private void initialDealToPlayer() {
 
-    blackjackDealToPlayer();
-    blackjackDealToPlayer();
-    printPlayerHand();
+    playerHand.dealCardToHand(deck);
+    playerHand.dealCardToHand(deck);
+    playerHand.printHand();
+    playerHand.printHandTotal();
 
 }
 
-private void blackjackDealToPlayer() {
-    Card dealtCard = deck.DealCard();
-    playerHand.add(dealtCard);
-    deck.RemoveCardFromDeck();
-
-}
 
 private void playersTurn() {
+
+    initialDealToPlayer();
 
     boolean isPlaying = true;
 
@@ -54,11 +52,12 @@ private void playersTurn() {
 
         if (hitOrStand.equalsIgnoreCase("hit")) {
 
-            blackjackDealToPlayer();
-            printPlayerHand();
+            playerHand.dealCardToHand(deck);
+            playerHand.printHand();
+            playerHand.printHandTotal();
             boolean isBust = checkIfPlayerBust();
             if (isBust) {
-
+                System.out.println("busted!");
                 return;
             }
 
@@ -73,12 +72,6 @@ private void playersTurn() {
 
 }
 
-private void printPlayerHand() {
-    System.out.println("your cards are");
-    System.out.println(playerHand);
-    int total = checkPlayerTotal();
-    System.out.printf("total is %d\n", total);
-}
 
 private String hitOrStand() {
 
@@ -100,24 +93,11 @@ private String hitOrStand() {
 }
 
 
-private int checkPlayerTotal() {
-    int total = 0;
-
-    for (Card card : playerHand) {
-        total = total + card.getCardValue();
-    }
-
-
-    return total;
-
-
-}
-
 private boolean checkIfPlayerBust() {
     boolean isBust = false;
-    int total = checkPlayerTotal();
+    int total = playerHand.checkHandTotal();
     if (total > BUST) {
-        System.out.println("busted!");
+
         isBust = true;
 
     }
@@ -125,37 +105,27 @@ private boolean checkIfPlayerBust() {
 
 }
 
-private void blackjackDealToDealer() {
-    Card dealtCard = deck.DealCard();
-    dealerHand.add(dealtCard);
-    deck.RemoveCardFromDeck();
-}
 
-private int checkDealerTotal() {
-    int total = 0;
-    for (Card card : dealerHand) {
-        total = total + card.getCardValue();
-    }
-    return total;
-}
 
-private void printDealerHand(){
-    System.out.println("dealer's cards are:");
-    System.out.println(dealerHand);
-    int total = checkDealerTotal();
-    System.out.printf("total is %d\n", total);
-    }
+
+// now on to the dealer code
+
+
+
+
 
 private void initialDealToDealer() {
-    blackjackDealToDealer();
-    blackjackDealToDealer();
+    dealerHand.dealCardToHand(deck);
+    dealerHand.dealCardToHand(deck);
+    dealerHand.printHand();
+    dealerHand.printHandTotal();
 
 }
 
 private boolean compareDealerTotalToPlayer() {
 
-    int playerTotal = checkPlayerTotal();
-    int dealerTotal = checkDealerTotal();
+    int playerTotal = playerHand.checkHandTotal();
+    int dealerTotal = dealerHand.checkHandTotal();
 
     return playerTotal > dealerTotal;
 
@@ -169,7 +139,7 @@ private void dealerMove() {
     boolean isPlaying = true;
 
     while(isPlaying) {
-        printDealerHand();
+
 
         boolean isBust = checkIfDealerBust();
         if (isBust) {
@@ -181,7 +151,9 @@ private void dealerMove() {
 
         if (isHitting) {
             System.out.println("hitting");
-            blackjackDealToDealer();
+            dealerHand.dealCardToHand(deck);
+            dealerHand.printHand();
+            dealerHand.printHandTotal();
         } else {
             System.out.println("dealer wins!");
             isPlaying = false;
@@ -191,7 +163,7 @@ private void dealerMove() {
 
 private boolean checkIfDealerBust() {
         boolean isBust = false;
-        int total = checkDealerTotal();
+        int total = dealerHand.checkHandTotal();
         if (total > BUST) {
             System.out.println("busted!");
             System.out.println("player wins!");
@@ -205,6 +177,13 @@ private boolean checkIfDealerBust() {
 
 
 private void dealersTurn() {
+
+    boolean isBust = checkIfPlayerBust();
+    if (isBust) {
+        System.out.println("dealer wins!");
+        return;
+    }
+
     initialDealToDealer();
 
     dealerMove();
