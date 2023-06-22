@@ -30,8 +30,10 @@ public void blackjackGame() {
 
 private void initialDealToPlayer() {
 
-    playerHand.dealCardToHand(deck);
-    playerHand.dealCardToHand(deck);
+    Card dealtCard = deck.dealCard();
+    playerHand.dealCardToHand(dealtCard);
+    dealtCard = deck.dealCard();
+    playerHand.dealCardToHand(dealtCard);
     playerHand.printHand();
     playerHand.printHandTotal();
 
@@ -52,7 +54,8 @@ private void playersTurn() {
 
         if (hitOrStand.equalsIgnoreCase("hit")) {
 
-            playerHand.dealCardToHand(deck);
+            Card dealtCard = deck.dealCard();
+            playerHand.dealCardToHand(dealtCard);
             playerHand.printHand();
             playerHand.printHandTotal();
             boolean isBust = checkIfPlayerBust();
@@ -115,8 +118,10 @@ private boolean checkIfPlayerBust() {
 
 
 private void initialDealToDealer() {
-    dealerHand.dealCardToHand(deck);
-    dealerHand.dealCardToHand(deck);
+    Card dealtCard = deck.dealCard();
+    dealerHand.dealCardToHand(dealtCard);
+    dealtCard = deck.dealCard();
+    dealerHand.dealCardToHand(dealtCard);
     dealerHand.printHand();
     dealerHand.printHandTotal();
 
@@ -151,7 +156,8 @@ private void dealerMove() {
 
         if (isHitting) {
             System.out.println("hitting");
-            dealerHand.dealCardToHand(deck);
+            Card dealtCard = deck.dealCard();
+            dealerHand.dealCardToHand(dealtCard);
             dealerHand.printHand();
             dealerHand.printHandTotal();
         } else {

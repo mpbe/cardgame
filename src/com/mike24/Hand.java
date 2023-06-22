@@ -37,10 +37,10 @@ public class Hand {
 
     }
 
-    public void dealCardToHand(Deck deck) {
-        Card dealtCard = deck.dealCard();
-        hand.add(dealtCard);
-        deck.removeCardFromDeck();
+    public void dealCardToHand(Card card) {
+
+        hand.add(card);
+
     }
 
    public void clearHand() {

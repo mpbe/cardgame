@@ -23,15 +23,11 @@ public class Card {
         return cardname;
     }
 
-    public void setCardName(CardName cardname) {
-        this.cardname = cardname;
-    }
+
 
     public Suits getSuit() {return suit;}
 
-    public void setSuit(Suits suit) {
-        this.suit = suit;
-    }
+
 
     public int getCardValue() {
         return cardValue;

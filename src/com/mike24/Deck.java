@@ -30,13 +30,12 @@ public class Deck {
 
     public Card dealCard() {
 
-        return deckOfCards.get(0);
-
-
-    }
-
-    public void removeCardFromDeck() {
-
+        Card dealtCard = deckOfCards.get(0);
         deckOfCards.remove(0);
+        return dealtCard;
+
+
     }
+
+
 }
